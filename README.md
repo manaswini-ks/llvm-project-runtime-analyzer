@@ -21,8 +21,9 @@ This project implements a custom LLVM pass called HeapAccessTracker. It tracks h
    git clone https://github.com/kir4nn/CD-EL-HeapAccessTracker.git
    cd CD-EL-HeapAccessTracker
 2. Build LLVM with your new pass:
-mkdir build
+
    ```bash
+   mkdir build
    cd build
    cmake -G "Unix Makefiles" -DLLVM_ENABLE_PROJECTS="clang;" \
         -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install \
