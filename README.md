@@ -1,46 +1,77 @@
-# The LLVM Compiler Infrastructure
+## Problem Statement - 9 - Runtime Memory Access Analysis using LLVM/Clang
 
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/llvm/llvm-project/badge)](https://securityscorecards.dev/viewer/?uri=github.com/llvm/llvm-project)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8273/badge)](https://www.bestpractices.dev/projects/8273)
-[![libc++](https://github.com/llvm/llvm-project/actions/workflows/libcxx-build-and-test.yaml/badge.svg?branch=main&event=schedule)](https://github.com/llvm/llvm-project/actions/workflows/libcxx-build-and-test.yaml?query=event%3Aschedule)
+## Team Members:
+Aditi N Pai - 1RV21CS012
+Dwarakacherla Navya - 1RV21CS039
+Imon Banerjee - 1RV21CS051
+Kiran P Chavan - 1RV22CS404
 
-Welcome to the LLVM project!
+This project implements a custom LLVM pass called HeapAccessTracker. It tracks heap access operations in LLVM IR.
 
-This repository contains the source code for LLVM, a toolkit for the
-construction of highly optimized compilers, optimizers, and run-time
-environments.
+## Prerequisites
 
-The LLVM project has multiple components. The core of the project is
-itself called "LLVM". This contains all of the tools, libraries, and header
-files needed to process intermediate representations and convert them into
-object files. Tools include an assembler, disassembler, bitcode analyzer, and
-bitcode optimizer.
+- LLVM 15.0.0 or later
+- CMake 3.13.4 or later
+- GCC 11.3.0 or later
 
-C-like languages use the [Clang](https://clang.llvm.org/) frontend. This
-component compiles C, C++, Objective-C, and Objective-C++ code into LLVM bitcode
--- and from there into object files, using LLVM.
+## Setup and Installation
 
-Other components include:
-the [libc++ C++ standard library](https://libcxx.llvm.org),
-the [LLD linker](https://lld.llvm.org), and more.
+1. Clone the HeapAccessTracker repository:
+   ```bash
+   git clone https://github.com/kir4nn/CD-EL-HeapAccessTracker.git
+   cd CD-EL-HeapAccessTracker
+2. Build LLVM with your new pass:
+mkdir build
+   ```bash
+   cd build
+   cmake -G "Unix Makefiles" -DLLVM_ENABLE_PROJECTS="clang;" \
+        -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install \
+        -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ ../llvm
+   make -j4
+   make -j4 install
+3. Go back to the root directory:
+   cd ..
+4. Create a test C++ file named test.cpp:
+#include <cstdlib>
 
-## Getting the Source Code and Building LLVM
+void processData(int* data, int size) {
+    for (int i = 0; i < size; ++i) {
+        data[i] *= 2;
+    }
+}
 
-Consult the
-[Getting Started with LLVM](https://llvm.org/docs/GettingStarted.html#getting-the-source-code-and-building-llvm)
-page for information on building and running LLVM.
+int main() {
+    int* arr = (int*)malloc(10 * sizeof(int));
+    for (int i = 0; i < 10; ++i) {
+        arr[i] = i;
+    }
+    processData(arr, 10);
+    free(arr);
+    return 0;
+}
+5. Generate LLVM IR:
+./build/bin/clang++ -O1 -S -emit-llvm -g test.cpp -o test.ll
+6. Run the HeapAccessTracker pass to generate a CSV file from the IR:
+./build/bin/opt -load-pass-plugin=./build/lib/LLVMHeapAccessTracker.so \
+                -passes="heap-access-tracker" -disable-output test.ll -debug-pass-manager
+Project Structure
 
-For information on how to contribute to the LLVM project, please take a look at
-the [Contributing to LLVM](https://llvm.org/docs/Contributing.html) guide.
+    llvm-project/llvm/lib/Transforms/HeapAccessTracker/HeapAccessTracker.cpp: Main implementation of the HeapAccessTracker pass.
+    llvm-project/llvm/lib/Transforms/HeapAccessTracker/CMakeLists.txt: CMake configuration for the pass.
 
-## Getting in touch
+Pass Description
 
-Join the [LLVM Discourse forums](https://discourse.llvm.org/), [Discord
-chat](https://discord.gg/xS7Z362),
-[LLVM Office Hours](https://llvm.org/docs/GettingInvolved.html#office-hours) or
-[Regular sync-ups](https://llvm.org/docs/GettingInvolved.html#online-sync-ups).
+The HeapAccessTracker pass analyzes LLVM IR to identify and track heap access operations. It focuses on operations related to memory allocation, deallocation, and access patterns. The pass provides insights into how a program interacts with dynamically allocated memory.
 
-The LLVM project has adopted a [code of conduct](https://llvm.org/docs/CodeOfConduct.html) for
-participants to all modes of communication within the project.
-# CD-EL-HeapAccessTracker
-# CD-EL-HeapAccessTracker
+Output
+
+The pass will output information about heap access operations it detects, including:
+
+    Function name
+    Memory address
+    Access type (e.g., load, store)
+    Source file
+    Line number
+
+The output is printed to the console during the pass execution.
+
