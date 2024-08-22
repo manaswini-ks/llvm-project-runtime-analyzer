@@ -34,26 +34,28 @@ https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
    ```bash
    cd ..
 5. Create a test C++ file named test.cpp:
-   ```bash
-   gedit test.cpp
-   '''
-   #include <cstdlib>
-   
-   void processData(int* data, int size) {
-       for (int i = 0; i < size; ++i) {
-           data[i] *= 2;
-       }
-   }
-   
-   int main() {
-       int* arr = (int*)malloc(10 * sizeof(int));
-       for (int i = 0; i < 10; ++i) {
-           arr[i] = i;
-       }
-       processData(arr, 10);
-       free(arr);
-       return 0;
-   }'''
+      ```bash
+      gedit test.cpp
+      ```
+   ```
+      #include <cstdlib>
+      
+      void processData(int* data, int size) {
+          for (int i = 0; i < size; ++i) {
+              data[i] *= 2;
+          }
+      }
+      
+      int main() {
+          int* arr = (int*)malloc(10 * sizeof(int));
+          for (int i = 0; i < 10; ++i) {
+              arr[i] = i;
+          }
+          processData(arr, 10);
+          free(arr);
+          return 0;
+      }
+   ```
 5. Generate LLVM IR:
    ```bash
    ./build/bin/clang++ -O1 -S -emit-llvm -g test.cpp -o test.ll
@@ -76,7 +78,7 @@ The pass will output information about heap access operations it detects, includ
 
     Function name
     Memory address
-    Access type (e.g., load, store)
+    Access type (e.g., read, write)
     Source file
     Line number
 
