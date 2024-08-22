@@ -7,7 +7,7 @@
 - Kiran P Chavan - 1RV22CS404
 
 This project implements a custom LLVM pass called HeapAccessTracker. It tracks heap access operations in LLVM IR.
-
+https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
 ## Prerequisites
 
 - LLVM 15.0.0 or later
@@ -31,40 +31,46 @@ This project implements a custom LLVM pass called HeapAccessTracker. It tracks h
    make -j4
    make -j4 install
 3. Go back to the root directory:
+   ```bash
    cd ..
-4. Create a test C++ file named test.cpp:
-#include <cstdlib>
-
-void processData(int* data, int size) {
-    for (int i = 0; i < size; ++i) {
-        data[i] *= 2;
-    }
-}
-
-int main() {
-    int* arr = (int*)malloc(10 * sizeof(int));
-    for (int i = 0; i < 10; ++i) {
-        arr[i] = i;
-    }
-    processData(arr, 10);
-    free(arr);
-    return 0;
-}
+5. Create a test C++ file named test.cpp:
+   ```bash
+   gedit test.cpp
+   '''
+   #include <cstdlib>
+   
+   void processData(int* data, int size) {
+       for (int i = 0; i < size; ++i) {
+           data[i] *= 2;
+       }
+   }
+   
+   int main() {
+       int* arr = (int*)malloc(10 * sizeof(int));
+       for (int i = 0; i < 10; ++i) {
+           arr[i] = i;
+       }
+       processData(arr, 10);
+       free(arr);
+       return 0;
+   }'''
 5. Generate LLVM IR:
-./build/bin/clang++ -O1 -S -emit-llvm -g test.cpp -o test.ll
+   ```bash
+   ./build/bin/clang++ -O1 -S -emit-llvm -g test.cpp -o test.ll
 6. Run the HeapAccessTracker pass to generate a CSV file from the IR:
-./build/bin/opt -load-pass-plugin=./build/lib/LLVMHeapAccessTracker.so \
+   ```bash
+   ./build/bin/opt -load-pass-plugin=./build/lib/LLVMHeapAccessTracker.so \
                 -passes="heap-access-tracker" -disable-output test.ll -debug-pass-manager
-Project Structure
+## Project Structure
 
     llvm-project/llvm/lib/Transforms/HeapAccessTracker/HeapAccessTracker.cpp: Main implementation of the HeapAccessTracker pass.
     llvm-project/llvm/lib/Transforms/HeapAccessTracker/CMakeLists.txt: CMake configuration for the pass.
 
-Pass Description
+## Pass Description
 
 The HeapAccessTracker pass analyzes LLVM IR to identify and track heap access operations. It focuses on operations related to memory allocation, deallocation, and access patterns. The pass provides insights into how a program interacts with dynamically allocated memory.
 
-Output
+## Output
 
 The pass will output information about heap access operations it detects, including:
 
@@ -74,5 +80,5 @@ The pass will output information about heap access operations it detects, includ
     Source file
     Line number
 
-The output is printed to the console during the pass execution.
+The output is printed to the csv file during the pass execution.
 
