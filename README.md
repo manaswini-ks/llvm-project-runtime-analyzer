@@ -68,8 +68,6 @@ https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
    }
 
    ```
-
-   ```
 5. Generate LLVM IR:
    ```bash
    ./build/bin/clang++ -O1 -S -emit-llvm -g test.cpp -o test.ll
