@@ -36,6 +36,11 @@ https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
       gedit test.cpp
       ```
    ```
+      5. Create a test C++ file named test.cpp:
+      ```bash
+      gedit test.cpp
+      ```
+   ```
       #include <cstdlib>
       
       void processData(int* data, int size) {
@@ -53,6 +58,8 @@ https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
           free(arr);
           return 0;
       }
+   ```
+
    ```
 5. Generate LLVM IR:
    ```bash
