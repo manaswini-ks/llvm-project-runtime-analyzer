@@ -5,7 +5,7 @@
 - Mandava Sai Anirudh - 1RV22CS107
 
 This project implements a custom LLVM pass called HeapAccessTracker. It tracks heap access operations in LLVM IR.
-https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
+
 ## Prerequisites
 
 - LLVM 15.0.0 or later
