@@ -37,7 +37,7 @@ https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
       ```
    ```
    #include <cstdlib>
-   include <ctime>
+   #include <ctime>
 
    void compute(int* buffer, int size) {
     for (int i = 0; i < size; ++i) {
