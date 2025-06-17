@@ -1,10 +1,8 @@
 ## Problem Statement - 9 - Runtime Memory Access Analysis using LLVM/Clang
 
 ## Team Members:
-- Aditi N Pai - 1RV21CS012
-- Dwarakacherla Navya - 1RV21CS039
-- Imon Banerjee - 1RV21CS051
-- Kiran P Chavan - 1RV22CS404
+- Manaswini Simhadri Kavali- 1RV22CS106
+- Mandava Sai Anirudh - 1RV22CS107
 
 This project implements a custom LLVM pass called HeapAccessTracker. It tracks heap access operations in LLVM IR.
 https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
