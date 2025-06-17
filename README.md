@@ -36,8 +36,8 @@ https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
       gedit test.cpp
       ```
    ```
-     #include <cstdlib>
-      #include <ctime>
+   #include <cstdlib>
+   include <ctime>
 
    void compute(int* buffer, int size) {
     for (int i = 0; i < size; ++i) {
