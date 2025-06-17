@@ -16,8 +16,8 @@ https://github.com/kir4nn/CD-EL-HeapAccessTracker/edit/main/README.md
 
 1. Clone the HeapAccessTracker repository:
    ```bash
-   git clone https://github.com/kir4nn/CD-EL-HeapAccessTracker.git
-   cd CD-EL-HeapAccessTracker
+   git clone  https://github.com/manaswini-ks/llvm-project-runtime-analyzer.git
+   cd llvm-project-runtime
 2. Build LLVM with your new pass:
 
    ```bash
